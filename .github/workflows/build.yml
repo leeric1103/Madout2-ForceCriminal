@@ -35,18 +35,10 @@ jobs:
         lipo -info build/SimpleForceCriminal_arm64.dylib
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: SimpleForceCriminal-dylib
         path: build/SimpleForceCriminal_arm64.dylib
         retention-days: 30
     
     - name: Create Release
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: v1.0.${{ github.run_number }}
-        name: Release v1.0.${{ github.run_number }}
-        files: build/SimpleForceCriminal_arm64.dylib
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
