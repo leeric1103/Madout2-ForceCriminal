@@ -1,0 +1,9 @@
+Package: com.example.forcecriminalmenu
+Name: ForceCriminalMenu
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Floating menu for SimpleForceCriminal dylib
+Maintainer: You
+Author: You
+Section: Tweaks
+Depends: mobilesubstrate
