@@ -4,11 +4,21 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/theos/docker:latest
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: 安装依赖
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential fakeroot git perl clang curl dpkg-dev
+
+      - name: 安装 Theos
+        run: |
+          export THEOS=$HOME/theos
+          git clone --recursive https://github.com/theos/theos.git $THEOS
+          git clone --depth=1 https://github.com/theos/sdks.git $THEOS/sdks
+          echo "THEOS=$THEOS" >> $GITHUB_ENV
 
       - name: 编译
         run: |
