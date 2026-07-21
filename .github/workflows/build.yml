@@ -4,14 +4,19 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/theos/docker:latest
+
     steps:
       - uses: actions/checkout@v4
-      - name: Build with Theos
-        uses: NyaMisty/theos-action@master
-        with:
-          packages: "ForceCriminalMenu"
-      - name: Upload artifact
+
+      - name: 编译
+        run: |
+          cd ForceCriminalMenu
+          make clean package FINALPACKAGE=1
+
+      - name: 上传产物
         uses: actions/upload-artifact@v4
         with:
           name: ForceCriminalMenu
-          path: packages/
+          path: ForceCriminalMenu/packages/
