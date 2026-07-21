@@ -11,14 +11,22 @@ jobs:
       - name: 安装依赖
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential fakeroot git perl clang curl dpkg-dev
+          sudo apt-get install -y build-essential fakeroot git perl clang curl cpio unzip zstd
 
       - name: 安装 Theos
         run: |
           export THEOS=$HOME/theos
-          git clone --recursive https://github.com/theos/theos.git $THEOS
-          git clone --depth=1 https://github.com/theos/sdks.git $THEOS/sdks
+          git clone --depth=1 https://github.com/theos/theos.git $THEOS
+          git clone --depth=1 https://github.com/theos/headers.git $THEOS/headers
+          git clone --depth=1 https://github.com/theos/lib.git $THEOS/lib
+          git clone --depth=1 https://github.com/theos/toolchain.git $THEOS/toolchain/linux/iphone
           echo "THEOS=$THEOS" >> $GITHUB_ENV
+
+      - name: 下载 iOS SDK (只下15.5)
+        run: |
+          curl -L "https://github.com/xybp888/iOS-SDKs/raw/main/iPhoneOS15.5.sdk.tar.xz" -o /tmp/sdk.tar.xz
+          mkdir -p $HOME/theos/sdks
+          tar xf /tmp/sdk.tar.xz -C $HOME/theos/sdks
 
       - name: 编译
         run: |
